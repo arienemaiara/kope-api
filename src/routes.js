@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
+import ClienteController from './app/controllers/ClienteController';
+
 const routes = new Router();
 
-routes.get('/', (req, res) => {
-    return res.json({ l: 'k' })
-});
+routes.post('/clientes', ClienteController.store);
 
 export default routes;
