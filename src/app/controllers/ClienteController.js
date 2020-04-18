@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { Op } from 'sequelize';
+import { cpf as validateCpf } from 'cpf-cnpj-validator';
 
 import Cliente from '../models/Cliente';
 
@@ -16,6 +17,10 @@ class ClienteController {
 
             if (!(await schema.isValid(req.body))) {
                 return res.status(400).json({ error: 'Erro na validação dos campos. Verifique os valores informados.' });
+            }
+
+            if (!validateCpf.isValid(req.body.cpf)) {
+                return res.status(400).json({ error: 'CPF inválido.' });
             }
 
             const clienteJaCadastrado = await Cliente.findOne({
