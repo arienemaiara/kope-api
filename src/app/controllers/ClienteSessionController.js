@@ -4,7 +4,7 @@ import Cliente from '../models/Cliente';
 
 import authConfig from '../../config/auth';
 
-class SessionController {
+class ClienteSessionController {
     async store(req, res) {
         const { cpf, password } = req.body;
 
@@ -33,4 +33,4 @@ class SessionController {
     }
 }
 
-export default new SessionController();
+export default new ClienteSessionController();
