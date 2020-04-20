@@ -1,18 +1,29 @@
 import request from 'supertest';
+
+import factory from '../factories';
 import app from '../../src/app';
 
 describe('Cliente', () => {
-    it('Deverá ser possível se cadastrar', async () => {
+    it('Deverá ser cadastrado com sucesso', async () => {
+
+        const cliente = await factory.attrs('Cliente');
+
         const response = await request(app)
             .post('/clientes')
-            .send({
-                cpf: "44453395809",
-                nome: "Ariene Maiara Ribeiro",
-                email: "arienemaiara@gmail.com",
-                telefone: "12992090773",
-                password: "123456"
-            });
+            .send(cliente);
 
         expect(response.body).toHaveProperty('id');
     });
+
+    // it ('Deverá ter a senha criptografada', async () => {
+
+    // });
+
+    // it ('Não poderá ser cadastrado com cpf duplicado', async () => {
+
+    // });
+
+    // it ('Não poderá ser cadastrado com e-mail duplicado', async () => {
+
+    // });
 });
