@@ -13,6 +13,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      qtd_pontos: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       imagem_nome: {
         type: Sequelize.STRING,
         allowNull: true,

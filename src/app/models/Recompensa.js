@@ -5,6 +5,7 @@ class Recompensa extends Model {
         super.init(
             {
                 descricao: Sequelize.STRING,
+                qtd_pontos: Sequelize.INTEGER,
                 imagem_nome: Sequelize.STRING,
                 imagem_path: Sequelize.STRING,
                 imagem_url: {

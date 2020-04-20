@@ -11,7 +11,7 @@ class RecompensaController {
                 where: {
                     estabelecimento_id
                 },
-                attributes: ['id', 'descricao', 'imagem_url'],
+                attributes: ['id', 'descricao', 'qtd_pontos', 'imagem_url'],
                 order: ['descricao'],
                 limit: 20,
                 offset: (page - 1) * 20,
@@ -27,7 +27,8 @@ class RecompensaController {
     async store(req, res) {
         try {
             const schema = Yup.object().shape({
-                descricao: Yup.string().required().min(6)
+                descricao: Yup.string().required().min(6),
+                qtd_pontos: Yup.number().required().integer()
             });
 
             if (!(await schema.isValid(req.body))) {
@@ -38,6 +39,7 @@ class RecompensaController {
 
             const recompensa = await Recompensa.create({
                 descricao: req.body.descricao,
+                qtd_pontos: req.body.qtd_pontos,
                 estabelecimento_id
             });
 
