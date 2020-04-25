@@ -23,5 +23,6 @@ routes.put('/estabelecimentos', EstabelecimentoController.update);
 
 routes.get('/recompensas', RecompensaController.index);
 routes.post('/recompensas', RecompensaController.store);
+routes.put('/recompensas/:id', RecompensaController.update);
 
 export default routes;
