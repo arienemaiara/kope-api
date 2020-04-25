@@ -1,4 +1,4 @@
-import sequelize, { Op, where } from 'sequelize';
+import sequelize from 'sequelize';
 import * as Yup from 'yup';
 
 import Movimentacao from '../models/Movimentacao';

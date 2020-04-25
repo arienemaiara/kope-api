@@ -8,13 +8,7 @@ class ClienteController {
 
             const { id, cpf, nome, email, telefone } = await Cliente.create(req.body);
 
-            return res.json({
-                id,
-                cpf,
-                nome,
-                email,
-                telefone
-            });
+            return res.json({ id, cpf, nome, email, telefone });
 
         } catch (error) {
             console.log(error)
@@ -32,12 +26,7 @@ class ClienteController {
 
             const { id, cpf, nome } = await cliente.update(req.body);
 
-            return res.json({
-                id,
-                cpf,
-                nome
-            });
-
+            return res.json({ id, cpf, nome });
 
         } catch (error) {
             console.log(error)
