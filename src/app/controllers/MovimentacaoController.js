@@ -22,7 +22,9 @@ class MovimentacaoController {
                 offset: (page - 1) * 20,
             });
 
-            return res.json(movimentacoes);
+            const total_pontos = await Movimentacao.getSomaPontos(cliente_id, estabelecimento_id);
+
+            return res.json({ total_pontos, movimentacoes });
 
         } catch (error) {
             return res.status(500).json({ error });

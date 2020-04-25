@@ -7,11 +7,15 @@ import EstabelecimentoSessionController from './app/controllers/EstabelecimentoS
 import RecompensaController from './app/controllers/RecompensaController';
 import MovimentacaoController from './app/controllers/MovimentacaoController';
 
+//Validadores
+import validatorClienteStore from './app/validators/cliente/ClienteStore';
+import validatorClienteUpdate from './app/validators/cliente/ClienteUpdate';
+
 import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
 
-routes.post('/clientes', ClienteController.store);
+routes.post('/clientes', validatorClienteStore, ClienteController.store);
 routes.post('/cliente_session', ClienteSessionController.store);
 
 routes.post('/estabelecimentos', EstabelecimentoController.store);
@@ -19,7 +23,7 @@ routes.post('/estabelecimentos_session', EstabelecimentoSessionController.store)
 
 routes.use(authMiddleware);
 
-routes.put('/clientes', ClienteController.update);
+routes.put('/clientes', validatorClienteUpdate, ClienteController.update);
 
 routes.put('/estabelecimentos', EstabelecimentoController.update);
 
