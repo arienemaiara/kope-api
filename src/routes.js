@@ -13,6 +13,7 @@ const routes = new Router();
 
 routes.post('/clientes', ClienteController.store);
 routes.post('/cliente_session', ClienteSessionController.store);
+
 routes.post('/estabelecimentos', EstabelecimentoController.store);
 routes.post('/estabelecimentos_session', EstabelecimentoSessionController.store);
 

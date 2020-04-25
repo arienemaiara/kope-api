@@ -1,4 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
+import moment from 'moment';
 
 class Movimentacao extends Model {
     static init(sequelize) {
@@ -6,7 +7,12 @@ class Movimentacao extends Model {
             {
                 qtd_pontos: Sequelize.INTEGER,
                 acumulo: Sequelize.BOOLEAN,
-                created_at: Sequelize.DATE
+                created_at: {
+                    type: Sequelize.DATE,
+                    get() {
+                        return moment(this.getDataValue('created_at')).format('DD/MM/YYYY HH:mm');
+                    },
+                }
             },
             {
                 tableName: 'movimentacoes',
@@ -30,6 +36,10 @@ class Movimentacao extends Model {
             }
         })
     }
+
+    // get created_at() {
+    //     return moment(this.created_at).utcOffset('-03:00');
+    // }
 }
 
 export default Movimentacao;
