@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
 import { Op } from 'sequelize';
-import { cpf as validateCpf, cnpj as validateCnpj } from 'cpf-cnpj-validator';
 
 import Estabelecimento from '../../models/Estabelecimento';
 

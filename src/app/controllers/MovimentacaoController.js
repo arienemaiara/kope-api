@@ -22,7 +22,7 @@ class MovimentacaoController {
                 offset: (page - 1) * 20,
             });
 
-            const total_pontos = await Movimentacao.getSomaPontos(cliente_id, estabelecimento_id);
+            const total_pontos = await Movimentacao.getSomaPontos(cliente_id, estabelecimento_id) || 0;
 
             return res.json({ total_pontos, movimentacoes });
 
@@ -63,44 +63,13 @@ class MovimentacaoController {
 
     async store(req, res) {
         try {
-            const schema = Yup.object().shape({
-                cpf_usuario: Yup.string().required(),
-                qtd_pontos: Yup.number().required().integer(),
-                acumulo: Yup.boolean().required()
-            });
-
-            if (!(await schema.isValid(req.body))) {
-                return res.status(400).json({ error: 'Erro na validação dos campos. Verifique os valores informados.' });
-            }
-
             let { acumulo, qtd_pontos, cpf_usuario } = req.body;
-
-            const cliente = await Cliente.findOne({
-                where: {
-                    cpf: cpf_usuario
-                }
-            });
-
-            if (!cliente) {
-                return res.status(400).json({ error: 'Cliente não encontrado.' });
-            }
-
             const estabelecimento_id = req.userId;
 
-            //Resgate
-            if (acumulo === false) {
+            const cliente = await Cliente.findOne({ where: { cpf: cpf_usuario }});
 
-                //Verifica se a quantidade de pontos que o usuário tem é suficiente para resgate
-                const qtdPontosAtuais = await Movimentacao.getSomaPontos(cliente.id, estabelecimento_id);
-                if (qtd_pontos > qtdPontosAtuais) {
-                    return res.status(400).json(
-                        { error: `Pontos insuficientes para resgate. Pontos disponíveis: ${qtdPontosAtuais}` }
-                    );
-                }
-
-                //Deixa a quantidade de pontos negativa em caso de resgate
-                qtd_pontos = qtd_pontos * -1;
-            }
+            //Deixa a quantidade de pontos negativa em caso de resgate
+            qtd_pontos = acumulo === false ? qtd_pontos * -1 : qtd_pontos;
 
             const movimentacao = await Movimentacao.create({
                 estabelecimento_id,

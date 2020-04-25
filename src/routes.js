@@ -13,6 +13,7 @@ import validatorClienteStore from './app/validators/cliente/ClienteStore';
 import validatorClienteUpdate from './app/validators/cliente/ClienteUpdate';
 import validatorEstabelecimentoStore from './app/validators/estabelecimento/EstabelecimentoStore';
 import validatorEstabelecimentoUpdate from './app/validators/estabelecimento/EstabelecimentoUpdate';
+import validatorMovimentacaoStore from './app/validators/movimentacao/MovimentacaoStore';
 
 //Middlewares
 import authMiddleware from './app/middlewares/auth';
@@ -36,7 +37,7 @@ routes.post('/recompensas', RecompensaController.store);
 routes.put('/recompensas/:id', RecompensaController.update);
 
 routes.get('/movimentacoes', MovimentacaoController.index);
-routes.post('/movimentacoes', MovimentacaoController.store);
+routes.post('/movimentacoes', validatorMovimentacaoStore, MovimentacaoController.store);
 routes.get('/pontosPorEstabelecimento', MovimentacaoController.totalPontosPorEstabelecimento);
 
 export default routes;
