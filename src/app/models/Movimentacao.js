@@ -21,6 +21,15 @@ class Movimentacao extends Model {
         this.belongsTo(models.Cliente, { foreignKey: 'cliente_id', as: 'cliente' });
         this.belongsTo(models.Estabelecimento, { foreignKey: 'estabelecimento_id', as: 'estabelecimento' });
     }
+
+    static getSomaPontos(cliente_id, estabelecimento_id) {
+        return this.sum('qtd_pontos', {
+            where: {
+                cliente_id,
+                estabelecimento_id
+            }
+        })
+    }
 }
 
 export default Movimentacao;

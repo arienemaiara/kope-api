@@ -85,8 +85,18 @@ class MovimentacaoController {
 
             const estabelecimento_id = req.userId;
 
-            //Deixa a quantidade de pontos negativa em caso de resgate
+            //Resgate
             if (acumulo === false) {
+
+                //Verifica se a quantidade de pontos que o usuário tem é suficiente para resgate
+                const qtdPontosAtuais = await Movimentacao.getSomaPontos(cliente.id, estabelecimento_id);
+                if (qtd_pontos > qtdPontosAtuais) {
+                    return res.status(400).json(
+                        { error: `Pontos insuficientes para resgate. Pontos disponíveis: ${qtdPontosAtuais}` }
+                    );
+                }
+
+                //Deixa a quantidade de pontos negativa em caso de resgate
                 qtd_pontos = qtd_pontos * -1;
             }
 
