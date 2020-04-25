@@ -50,6 +50,41 @@ class RecompensaController {
             return res.status(500).json({ error });
         }
     }
+
+    async update(req, res) {
+        try {
+            const schema = Yup.object().shape({
+                descricao: Yup.string().min(6),
+                qtd_pontos: Yup.number().integer()
+            });
+
+            if (!(await schema.isValid(req.body))) {
+                return res.status(400).json({ error: 'Erro na validação dos campos. Verifique os valores informados.' });
+            }
+
+            const { id } = req.params;
+            const estabelecimento_id = req.userId;
+
+            const recompensa = await Recompensa.findOne({
+                where: {
+                    id,
+                    estabelecimento_id
+                }
+            });
+
+            if (!recompensa) {
+                return res.status(400).json({ error: 'Recompensa não encontrada.' });
+            }
+
+            const { descricao, qtd_pontos } = await recompensa.update(req.body);
+
+            return res.json({ descricao, qtd_pontos });
+
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ error });
+        }
+    } 
 }
 
 export default new RecompensaController();
