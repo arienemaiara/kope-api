@@ -5,6 +5,7 @@ import ClienteSessionController from './app/controllers/ClienteSessionController
 import EstabelecimentoController from './app/controllers/EstabelecimentoController';
 import EstabelecimentoSessionController from './app/controllers/EstabelecimentoSessionController';
 import RecompensaController from './app/controllers/RecompensaController';
+import MovimentacaoController from './app/controllers/MovimentacaoController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -24,5 +25,9 @@ routes.put('/estabelecimentos', EstabelecimentoController.update);
 routes.get('/recompensas', RecompensaController.index);
 routes.post('/recompensas', RecompensaController.store);
 routes.put('/recompensas/:id', RecompensaController.update);
+
+routes.get('/movimentacoes', MovimentacaoController.index);
+routes.post('/movimentacoes', MovimentacaoController.store);
+routes.get('/pontosPorEstabelecimento', MovimentacaoController.totalPontosPorEstabelecimento);
 
 export default routes;

@@ -9,6 +9,7 @@ class Movimentacao extends Model {
                 created_at: Sequelize.DATE
             },
             {
+                tableName: 'movimentacoes',
                 sequelize
             }
         );

@@ -98,6 +98,7 @@ class EstabelecimentoController {
                 return res.status(401).json({ error: 'Senha anterior inválida.' });
             }
 
+            delete req.body.cpf_cnpj;
             const { id } = await estabelecimento.update(req.body);
 
             return res.json({ id });
