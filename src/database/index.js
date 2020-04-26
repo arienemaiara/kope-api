@@ -4,10 +4,11 @@ import databaseConfig from '../config/database';
 
 import Cliente from '../app/models/Cliente';
 import Estabelecimento from '../app/models/Estabelecimento';
+import EstabelecimentoEndereco from '../app/models/EstabelecimentoEndereco';
 import Recompensa from '../app/models/Recompensa';
 import Movimentacao from '../app/models/Movimentacao';
 
-const models = [Cliente, Estabelecimento, Recompensa, Movimentacao];
+const models = [Cliente, Estabelecimento, EstabelecimentoEndereco, Recompensa, Movimentacao];
 
 class Database {
     constructor() {
