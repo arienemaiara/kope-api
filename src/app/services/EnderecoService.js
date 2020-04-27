@@ -1,7 +1,5 @@
 import * as Yup from 'yup';
 
-import EstabelecimentoEndereco from '../models/EstabelecimentoEndereco';
-
 class EnderecoService {
 
     async validarListaEndereco(enderecos) {

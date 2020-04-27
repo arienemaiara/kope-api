@@ -21,13 +21,11 @@ class EstabelecimentoEndereco extends Model {
             }
         );
 
-        // // this.addHook('beforeSave', async (endereco) => {
-        // //     const res = await GeocodeService.geocodificarEndereco(endereco);
-        // //     console.log('res', res)
-        // //     // if (res.latitude && res.longitude) {
-        // //     //     endereco.coordenadas = { type: 'Point', coordinates: [res.latitude,res.typelongitude]};
-        // //     // }
-        // // });
+        this.addHook('beforeSave', async (endereco) => {
+            console.log('before save endereco');
+            const pointLocation = await GeocodeService.geocodificarEndereco(endereco);
+            endereco.coordenadas = pointLocation;
+        });
 
         return this;
     }

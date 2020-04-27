@@ -1,6 +1,27 @@
 import Estabelecimento from '../models/Estabelecimento';
 
 class EstabelecimentoController {
+    async index(req, res) {
+        try {
+
+            const { page = 1 } = req.query;
+
+            const estabelecimentos = await Estabelecimento.findAll({
+                include: 
+                    ['enderecos']
+                ,
+                limit: 20,
+                offset: (page - 1) * 20,
+            });
+
+            return res.json(estabelecimentos);
+            
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json({ error });
+        }
+    }
+
     async store(req, res) {
         try {
 

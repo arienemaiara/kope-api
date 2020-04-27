@@ -30,6 +30,7 @@ routes.use(authMiddleware);
 
 routes.put('/clientes', validatorClienteUpdate, ClienteController.update);
 
+routes.get('/estabelecimentos', EstabelecimentoController.index);
 routes.put('/estabelecimentos', validatorEstabelecimentoUpdate, EstabelecimentoController.update);
 
 routes.get('/recompensas', RecompensaController.index);
