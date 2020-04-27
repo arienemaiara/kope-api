@@ -16,16 +16,18 @@ class EstabelecimentoEndereco extends Model {
                 estado: Sequelize.STRING,
             },
             {
+                tableName: 'estabelecimento_enderecos',
                 sequelize
             }
         );
 
-        this.addHook('beforeSave', async (endereco) => {
-            const { latitude, longitude } = await GeocodeService.geocodificarEndereco(endereco);
-            if (latitude && longitude) {
-                endereco.coordenadas = { type: 'Point', coordinates: [latitude,longitude]};
-            }
-        });
+        // // this.addHook('beforeSave', async (endereco) => {
+        // //     const res = await GeocodeService.geocodificarEndereco(endereco);
+        // //     console.log('res', res)
+        // //     // if (res.latitude && res.longitude) {
+        // //     //     endereco.coordenadas = { type: 'Point', coordinates: [res.latitude,res.typelongitude]};
+        // //     // }
+        // // });
 
         return this;
     }

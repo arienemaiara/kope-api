@@ -3,6 +3,8 @@ import NodeGeocoder from 'node-geocoder';
 class GeocodeService {
     constructor() {
         this.geocoder = NodeGeocoder({
+            
+            apiKey: process.env.API_KEY,
             provider: 'google',
             language: 'pt-BR',
         });
@@ -14,6 +16,8 @@ class GeocodeService {
             zipcode: cep,
             countryCode: 'br',
         });
+
+        console.log(enderecoGeocodificado);
 
         if (enderecoGeocodificado.length > 0) {
             return enderecoGeocodificado[0];

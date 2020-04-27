@@ -1,22 +1,14 @@
-import * as Yup from 'yup';
-import { Op } from 'sequelize';
-
 import Estabelecimento from '../models/Estabelecimento';
-import EnderecoService from '../services/EnderecoService';
 
 class EstabelecimentoController {
     async store(req, res) {
         try {
 
-            const enderecos = [...req.body.enderecos];
+            const { id, nome } = await Estabelecimento.create(req.body, {
+                include:['enderecos']
+            });
 
-            const { id, cpf_cnpj, nome } = await Estabelecimento.create(req.body)
-                .then(() => {
-                    //Cadastra os endereços
-                    EnderecoService.cadastrarEnderecos(id, enderecos);
-                });
-
-            return res.json({ id, cpf_cnpj, nome });
+            return res.json({ id, nome });
 
         } catch (error) {
             console.log(error)

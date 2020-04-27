@@ -36,15 +36,6 @@ class EnderecoService {
         
     }
 
-    async cadastrarEnderecos(estabelecimento_id, enderecos) {
-        enderecos.map((endereco) => {
-            EstabelecimentoEndereco.create({
-                estabelecimento_id,
-                ...endereco
-            });
-        });
-    }
-
 }
 
 export default new EnderecoService();

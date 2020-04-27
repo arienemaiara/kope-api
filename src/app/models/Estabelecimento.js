@@ -31,6 +31,10 @@ class Estabelecimento extends Model {
         return this;
     }
 
+    static associate(models) {
+        this.hasMany(models.EstabelecimentoEndereco, { foreignKey: 'estabelecimento_id', as: 'enderecos' });
+    }
+
     checkPassword(password) {
         return bcrypt.compare(password, this.password_hash);
     }
