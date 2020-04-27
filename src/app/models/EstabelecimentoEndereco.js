@@ -1,5 +1,7 @@
 import Sequelize, { Model } from 'sequelize';
 
+import GeocodeService from '../services/GeocodeService';
+
 class EstabelecimentoEndereco extends Model {
     static init(sequelize) {
         super.init(
@@ -17,6 +19,13 @@ class EstabelecimentoEndereco extends Model {
                 sequelize
             }
         );
+
+        this.addHook('beforeSave', async (endereco) => {
+            const { latitude, longitude } = await GeocodeService.geocodificarEndereco(endereco);
+            if (latitude && longitude) {
+                endereco.coordenadas = { type: 'Point', coordinates: [latitude,longitude]};
+            }
+        });
 
         return this;
     }

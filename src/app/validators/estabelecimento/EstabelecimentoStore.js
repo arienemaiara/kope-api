@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 import { cpf as validateCpf, cnpj as validateCnpj } from 'cpf-cnpj-validator';
 
 import Estabelecimento from '../../models/Estabelecimento';
+import EnderecoService from '../../services/EnderecoService';
 
 export default async (req, res, next) => {
     try {
@@ -17,6 +18,19 @@ export default async (req, res, next) => {
         });
 
         await schema.validate(req.body, { abortEarly: false });
+
+        const enderecos = [...req.body.enderecos];
+
+        if (!req.body.enderecos || enderecos.length === 0) {
+            err.inner = 'Informe pelo menos 1 endereço.';
+            throw err;
+        }
+
+        await EnderecoService.validarListaEndereco(enderecos)
+        .catch((error) => {
+            err.inner = error;
+            throw err;
+        });
 
         const { cpf_cnpj, email } = req.body;
 
@@ -50,6 +64,7 @@ export default async (req, res, next) => {
         return next();
 
     } catch (error) {
+        //console.log(error);
         return res.status(400).json({ error: 'Erro na validação dos campos.', messages: error.inner });
     }
 }
