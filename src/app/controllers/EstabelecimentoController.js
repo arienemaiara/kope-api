@@ -1,4 +1,7 @@
 import Estabelecimento from '../models/Estabelecimento';
+import EstabelecimentoEndereco from '../models/EstabelecimentoEndereco';
+
+import database from '../../database';
 
 class EstabelecimentoController {
     async index(req, res) {
@@ -7,7 +10,8 @@ class EstabelecimentoController {
             const { page = 1 } = req.query;
 
             const estabelecimentos = await Estabelecimento.findAll({
-                include: 
+                attributes: ['id', 'cpf_cnpj', 'nome', 'email', 'telefone', 'avatar_url'],
+                include:
                     ['enderecos']
                 ,
                 limit: 20,
@@ -15,7 +19,7 @@ class EstabelecimentoController {
             });
 
             return res.json(estabelecimentos);
-            
+
         } catch (error) {
             console.log(error)
             return res.status(500).json({ error });
@@ -26,7 +30,7 @@ class EstabelecimentoController {
         try {
 
             const { id, nome } = await Estabelecimento.create(req.body, {
-                include:['enderecos']
+                include: ['enderecos']
             });
 
             return res.json({ id, nome });
@@ -39,13 +43,38 @@ class EstabelecimentoController {
 
     async update(req, res) {
         try {
+            const estabelecimento_id = req.userId;
+            const { enderecos } = req.body;
 
-            const estabelecimento = await Estabelecimento.findByPk(req.userId);
+            await database.connection.transaction(async (t) => {
+                delete req.body.cpf_cnpj;
+                const estabelecimento = await Estabelecimento.update(req.body, {
+                    where: {
+                        id: estabelecimento_id
+                    },
+                    transaction: t
+                });
 
-            delete req.body.cpf_cnpj;
-            const { id, cpf_cnpj, nome } = await estabelecimento.update(req.body);
+                await EstabelecimentoEndereco.destroy({
+                    where: {
+                        estabelecimento_id
+                    },
+                    transaction: t
+                });
 
-            return res.json({ id, cpf_cnpj, nome });
+                return Promise.all(
+                    enderecos.map(async (endereco) => {
+                        return EstabelecimentoEndereco.create({
+                            ...endereco,
+                            estabelecimento_id
+                        })
+                    })
+                );
+            })
+            .then(() => {
+                return res.json({ message: 'OK' });
+            });
+
 
         } catch (error) {
             console.log(error)

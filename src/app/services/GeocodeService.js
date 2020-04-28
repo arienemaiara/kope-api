@@ -2,7 +2,6 @@ import axios from 'axios';
 
 class GeocodeService {
     constructor() {
-
         this.geocodeServiceUrl = process.env.GEOCODER_URL;
         this.api = axios.create({
             baseURL: this.geocodeServiceUrl

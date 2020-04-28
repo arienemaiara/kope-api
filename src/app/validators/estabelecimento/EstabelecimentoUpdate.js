@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 import { Op } from 'sequelize';
 
 import Estabelecimento from '../../models/Estabelecimento';
+import EnderecoService from '../../services/EnderecoService';
 
 export default async (req, res, next) => {
     try {
@@ -22,6 +23,19 @@ export default async (req, res, next) => {
         });
 
         await schema.validate(req.body, { abortEarly: false });
+
+        const enderecos = [...req.body.enderecos];
+
+        if (!req.body.enderecos || enderecos.length === 0) {
+            err.inner = 'Informe pelo menos 1 endereço.';
+            throw err;
+        }
+
+        await EnderecoService.validarListaEndereco(enderecos)
+        .catch((error) => {
+            err.inner = error;
+            throw err;
+        });
 
         const { email, oldPassword } = req.body;
 
