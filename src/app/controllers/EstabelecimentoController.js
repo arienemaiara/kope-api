@@ -1,3 +1,5 @@
+import Sequelize from 'sequelize';
+
 import Estabelecimento from '../models/Estabelecimento';
 import EstabelecimentoEndereco from '../models/EstabelecimentoEndereco';
 
@@ -7,18 +9,45 @@ class EstabelecimentoController {
     async index(req, res) {
         try {
 
-            const { page = 1 } = req.query;
+            const { page = 1, latitude, longitude } = req.query;
 
-            const estabelecimentos = await Estabelecimento.findAll({
-                attributes: ['id', 'cpf_cnpj', 'nome', 'email', 'telefone', 'avatar_url'],
-                include:
-                    ['enderecos']
-                ,
+            const estabelecimentosEnderecos = await EstabelecimentoEndereco.findAll({
+                attributes: {
+                    include: [
+                        [
+                            Sequelize.fn(
+                                'ST_Distance',
+                                Sequelize.fn(
+                                    'ST_Transform', 
+                                    Sequelize.col('coordenadas'), 
+                                3857),
+                                Sequelize.fn(
+                                    'ST_Transform',
+                                    Sequelize.fn('ST_SetSRID',
+                                        Sequelize.fn('ST_MakePoint', longitude, latitude),
+                                        4326
+                                    ),
+                                    3857
+                                ),
+
+                            ),
+                            'distancia'
+                        ]
+                    ]
+                },
+                include: [
+                    {
+                        model: Estabelecimento,
+                        as: 'estabelecimento',
+                        attributes: ['id', 'nome', 'avatar_url', 'email', 'telefone']
+                    },
+                ],
+                order: Sequelize.literal('distancia ASC'),
                 limit: 20,
                 offset: (page - 1) * 20,
             });
 
-            return res.json(estabelecimentos);
+            return res.json(estabelecimentosEnderecos);
 
         } catch (error) {
             console.log(error)
@@ -71,9 +100,9 @@ class EstabelecimentoController {
                     })
                 );
             })
-            .then(() => {
-                return res.json({ message: 'OK' });
-            });
+                .then(() => {
+                    return res.json({ message: 'OK' });
+                });
 
 
         } catch (error) {

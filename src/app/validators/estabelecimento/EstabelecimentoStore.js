@@ -19,7 +19,7 @@ export default async (req, res, next) => {
 
         await schema.validate(req.body, { abortEarly: false });
 
-        const enderecos = [...req.body.enderecos];
+        const { enderecos } = req.body;
 
         if (!req.body.enderecos || enderecos.length === 0) {
             err.inner = 'Informe pelo menos 1 endereço.';
