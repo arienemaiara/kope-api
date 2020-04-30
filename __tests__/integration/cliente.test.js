@@ -4,12 +4,9 @@ import bcrypt from 'bcryptjs';
 import factory from '../factories';
 import app from '../../src/app';
 
-
-
 describe('Cliente', () => {
 
     let cliente;
-    let token;
 
     beforeAll(async () => {
         cliente = await factory.attrs('Cliente');

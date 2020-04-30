@@ -100,9 +100,9 @@ class EstabelecimentoController {
                     })
                 );
             })
-                .then(() => {
-                    return res.json({ message: 'OK' });
-                });
+            .then(() => {
+                return res.json({ message: 'OK' });
+            });
 
 
         } catch (error) {

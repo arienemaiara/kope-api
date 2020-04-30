@@ -5,7 +5,7 @@ import { factory } from 'factory-girl';
 import Cliente from '../src/app/models/Cliente';
 import Estabelecimento from '../src/app/models/Estabelecimento';
 
-faker.locale = "pt_BR";
+//faker.locale = "pt_BR";
 
 factory.define('Cliente', Cliente, {
     cpf: fakerBR.br.cpf(),
@@ -20,7 +20,16 @@ factory.define('Estabelecimento', Estabelecimento, {
     nome: faker.company.companyName(),
     email: faker.internet.email(),
     password: faker.internet.password(),
-    telefone: faker.phone.phoneNumber()
+    telefone: faker.phone.phoneNumber(),
+    enderecos: [{
+        endereco: faker.address.streetName(),
+        numero: '100',
+        complemento: '',
+        cep: faker.address.zipCode(),
+        bairro: faker.address.county(),
+        cidade: faker.address.city(),
+        estado: faker.address.stateAbbr(),
+    }]
 });
 
 export default factory;
