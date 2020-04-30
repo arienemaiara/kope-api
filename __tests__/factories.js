@@ -11,7 +11,7 @@ factory.define('Cliente', Cliente, {
     cpf: fakerBR.br.cpf(),
     nome: faker.name.findName(),
     email: faker.internet.email(),
-    password: faker.internet.password(),
+    password: '123456',
     telefone: faker.phone.phoneNumber()
 });
 
