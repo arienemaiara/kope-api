@@ -26,7 +26,7 @@ class EstabelecimentoSessionController {
                 cpf_cnpj,
                 nome,
             },
-            token: jwt.sign({ id }, authConfig.secret, {
+            token: jwt.sign({ id, tipoUsuario: 'estabelecimento' }, authConfig.secret, {
                 expiresIn: authConfig.expiresIn,
             }),
         });

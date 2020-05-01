@@ -28,9 +28,11 @@ routes.post('/estabelecimentos_session', EstabelecimentoSessionController.store)
 
 routes.use(authMiddleware);
 
+routes.get('/clientes/detalhe', ClienteController.detail);
 routes.put('/clientes', validatorClienteUpdate, ClienteController.update);
 
 routes.get('/estabelecimentos', EstabelecimentoController.index);
+routes.get('/estabelecimentos/detalhe', EstabelecimentoController.detail);
 routes.put('/estabelecimentos', validatorEstabelecimentoUpdate, EstabelecimentoController.update);
 
 routes.get('/recompensas', RecompensaController.index);

@@ -55,6 +55,21 @@ class EstabelecimentoController {
         }
     }
 
+    async detail(req, res) {
+        try {
+            const estabelecimento = await Estabelecimento.findByPk(req.userId, {
+                attributes: ['cpf_cnpj', 'nome', 'email', 'telefone', 'avatar_url'],
+                include: ['enderecos']
+            });
+
+            return res.json(estabelecimento);
+
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json({ error });
+        }
+    }
+
     async store(req, res) {
         try {
 

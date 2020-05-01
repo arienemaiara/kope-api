@@ -26,7 +26,7 @@ class ClienteSessionController {
                 cpf,
                 nome,
             },
-            token: jwt.sign({ id }, authConfig.secret, {
+            token: jwt.sign({ id, tipoUsuario: 'cliente' }, authConfig.secret, {
                 expiresIn: authConfig.expiresIn,
             }),
         });
