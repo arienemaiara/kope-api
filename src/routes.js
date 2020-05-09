@@ -21,10 +21,10 @@ import authMiddleware from './app/middlewares/auth';
 const routes = new Router();
 
 routes.post('/clientes', validatorClienteStore, ClienteController.store);
-routes.post('/cliente_session', ClienteSessionController.store);
+routes.post('/clientes/login', ClienteSessionController.store);
 
 routes.post('/estabelecimentos', validatorEstabelecimentoStore, EstabelecimentoController.store);
-routes.post('/estabelecimentos_session', EstabelecimentoSessionController.store);
+routes.post('/estabelecimentos/login', EstabelecimentoSessionController.store);
 
 routes.use(authMiddleware);
 
@@ -38,6 +38,7 @@ routes.put('/estabelecimentos', validatorEstabelecimentoUpdate, EstabelecimentoC
 routes.get('/recompensas', RecompensaController.index);
 routes.post('/recompensas', RecompensaController.store);
 routes.put('/recompensas/:id', RecompensaController.update);
+routes.delete('/recompensas/:id', RecompensaController.delete);
 
 routes.get('/movimentacoes', MovimentacaoController.index);
 routes.post('/movimentacoes', validatorMovimentacaoStore, MovimentacaoController.store);
