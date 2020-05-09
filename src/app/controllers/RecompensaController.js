@@ -84,7 +84,22 @@ class RecompensaController {
             console.log(error);
             return res.status(500).json({ error });
         }
-    } 
+    }
+
+
+    async delete(req, res) {
+        try {
+            const { id } = req.params;
+            await Recompensa.destroy({
+                where: {
+                    id
+                }
+            });
+            return res.json({ message: 'OK' });
+        } catch (error) {
+            return res.status(500).json({ error });
+        }
+    }
 }
 
 export default new RecompensaController();
