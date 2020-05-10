@@ -17,6 +17,24 @@ class ClienteController {
         }
     }
 
+    async detailCpf(req, res) {
+        try {
+            const { cpf } = req.params;
+            const cliente = await Cliente.findOne({
+                where: {
+                    cpf
+                },
+                attributes: ['id', 'cpf', 'nome', 'email', 'telefone', 'avatar_url']
+            });
+
+            return res.json(cliente);
+
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json({ error });
+        }
+    }
+
     async store(req, res) {
         try {
 

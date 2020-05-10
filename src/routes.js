@@ -29,6 +29,7 @@ routes.post('/estabelecimentos/login', EstabelecimentoSessionController.store);
 routes.use(authMiddleware);
 
 routes.get('/clientes/detalhe', ClienteController.detail);
+routes.get('/clientes/:cpf', ClienteController.detailCpf);
 routes.put('/clientes', validatorClienteUpdate, ClienteController.update);
 
 routes.get('/estabelecimentos', EstabelecimentoController.index);
