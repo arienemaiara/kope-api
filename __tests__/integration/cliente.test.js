@@ -7,6 +7,7 @@ import app from '../../src/app';
 describe('Cliente', () => {
 
     let cliente;
+    let token;
 
     beforeAll(async () => {
         cliente = await factory.attrs('Cliente');
@@ -46,12 +47,12 @@ describe('Cliente', () => {
 
     it('Deverá retornar um token', async () => {
         const responseLogin = await request(app)
-            .post('/cliente_session')
+            .post('/clientes/login')
             .send({
-                cpf: cliente.cpf,
-                password: cliente.cpf
+                email: cliente.email,
+                password: cliente.password
             });
-        const token = responseLogin.body.token;
+        token = responseLogin.body.token;
 
         expect(token).not.toBeNull();
     });
@@ -60,20 +61,12 @@ describe('Cliente', () => {
         const novoCliente = cliente;
         const cpfOriginal = novoCliente.cpf;
 
-        //Se autentica
-        const responseLogin = await request(app)
-            .post('/cliente_session')
-            .send({
-                cpf: cpfOriginal,
-                password: '123456'
-            });
-        const token = responseLogin.body.token;
-
         //Altera os dados
         novoCliente.cpf = '72556297093';
         novoCliente.nome = 'Novo nome';
         delete novoCliente.password;
 
+        console.log('token', token);
         const clienteAlterado = await request(app)
             .put('/clientes')
             .set('Authorization', `Bearer ${token}`)
