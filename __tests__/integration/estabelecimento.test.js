@@ -6,6 +6,7 @@ import app from '../../src/app';
 describe('Estabelecimento', () => {
 
     let estabelecimento;
+    let token;
 
     beforeAll(async () => {
         estabelecimento = await factory.attrs('Estabelecimento');
@@ -50,64 +51,51 @@ describe('Estabelecimento', () => {
         expect(response.body.messages).toBe('CPF inválido.');
     });
 
-    it('Deverá ser alterado com sucesso', async () => {
-
-        const novoEstabelecimento = await factory.attrs('Estabelecimento');
-        let response = await request(app)
-            .post('/estabelecimentos')
-            .send(novoEstabelecimento);
-
+    it('Deverá retornar um token', async () => {
         const responseLogin = await request(app)
-            .post('/estabelecimentos_session')
+            .post('/estabelecimentos/login')
             .send({
-                cpf_cnpj: novoEstabelecimento.cpf_cnpj,
-                password: novoEstabelecimento.password
+                email: estabelecimento.email,
+                password: estabelecimento.password
             });
-        const token = responseLogin.body.token;
+        token = responseLogin.body.token;
 
-        novoEstabelecimento.nome = 'Novo Nome';
-        delete novoEstabelecimento.password;
-
-        setTimeout( async () => {
-            response = await request(app)
-                .put('/estabelecimentos')
-                .set('Authorization', `Bearer ${token}`)
-                .send(novoEstabelecimento);
-
-            expect(response.body).toBe(novoEstabelecimento.nome);
-        }, 3000)
-
-
-    }, 30000);
+        expect(responseLogin.status).toBe(200);
+        expect(token).not.toBeNull();
+    });
 
     it('Não deixar passar senha anterior inválida', async () => {
-        const novoEstabelecimento = await factory.attrs('Estabelecimento');
-        let response = await request(app)
-            .post('/estabelecimentos')
-            .send(novoEstabelecimento);
-
-        const responseLogin = await request(app)
-            .post('/estabelecimentos_session')
-            .send({
-                cpf_cnpj: novoEstabelecimento.cpf_cnpj,
-                password: novoEstabelecimento.password
-            });
-        const token = responseLogin.body.token;
-
+        const novoEstabelecimento = estabelecimento;
 
         novoEstabelecimento.oldPassword = '7777777';
         novoEstabelecimento.password = '123456789';
         novoEstabelecimento.confirmPassword = '123456789';
 
-        setTimeout( async () => {
-            response = await request(app)
-                .put('/estabelecimentos')
-                .set('Authorization', `Bearer ${token}`)
-                .send(novoEstabelecimento);
+        let response = await request(app)
+            .put('/estabelecimentos')
+            .set('Authorization', `Bearer ${token}`)
+            .send(novoEstabelecimento);
 
-            expect(response.status).toBe(400);
-            expect(response.body.messages).toBe('Senha anterior inválida.');
-        }, 3000)
-    }, 30000);
+        expect(response.status).toBe(400);
+        expect(response.body.messages).toBe('Senha anterior inválida.');
+    });
+
+    // // it('Deverá ser alterado com sucesso', async () => {
+
+    // //     const novoEstabelecimento = estabelecimento;
+    // //     novoEstabelecimento.nome = 'Novo Nome';
+    // //     delete novoEstabelecimento.password;
+    // //     delete novoEstabelecimento.oldPassword;
+    // //     delete novoEstabelecimento.confirmPassword;
+
+    // //     const estabelecimentoAlterado = await request(app)
+    // //         .put('/estabelecimentos')
+    // //         .set('Authorization', `Bearer ${token}`)
+    // //         .send(novoEstabelecimento)
+    // //         .timeout(50000);
+
+    // //     expect(estabelecimentoAlterado.body).toBe(novoEstabelecimento.nome);
+
+    // // }, 50000);
 
 });

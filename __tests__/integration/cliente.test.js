@@ -59,7 +59,7 @@ describe('Cliente', () => {
 
     it('Não poderá ser alterado o campo CPF', async () => {
         const novoCliente = cliente;
-        const cpfOriginal = novoCliente.cpf;
+        const cpfOriginal = cliente.cpf;
 
         //Altera os dados
         novoCliente.cpf = '72556297093';
@@ -77,5 +77,5 @@ describe('Cliente', () => {
 
         expect(clienteAlterado.body).toHaveProperty('cpf', cpfOriginal);
         expect(clienteAlterado.body).toHaveProperty('nome', novoCliente.nome);
-    });
+    }, 50000);
 });
