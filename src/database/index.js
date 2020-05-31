@@ -16,7 +16,25 @@ class Database {
     }
 
     init() {
-        this.connection = new Sequelize(process.env.DATABASE_URL || databaseConfig); //Heroku ou local
+
+        if (process.env.DATABASE_URL) {
+            this.connection = new Sequelize(process.env.DATABASE_URL, {
+                dialect:  'postgres',
+                protocol: 'postgres',
+                port:     match[4],
+                host:     match[3],
+                logging:  true,
+                define: {
+                    timestamps: true,
+                    underscored: true,
+                    underscoredAll: true,
+                }
+            });
+        }
+        else {
+            this.connection = new Sequelize(databaseConfig);
+        }
+        
         
         models
             .map((model) => model.init(this.connection))
