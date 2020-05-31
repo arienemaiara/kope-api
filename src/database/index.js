@@ -28,7 +28,7 @@ class Database {
             });
         }
         else {
-            this.connection = new Sequelize(databaseConfig);
+            this.connection = new Sequelize(databaseConfig.development);
         }
         
         
