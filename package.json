@@ -23,6 +23,7 @@
     "pg": "^8.0.0",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.6",
+    "sequelize-cli": "^5.5.1",
     "yup": "^0.28.3",
     "sucrase": "^3.13.0"
   },
@@ -34,7 +35,6 @@
     "faker-br": "^0.2.4",
     "jest": "^25.4.0",
     "nodemon": "^2.0.2",
-    "sequelize-cli": "^5.5.1",
     "sqlite3": "^4.1.1",
     "supertest": "^4.0.2"
   }
