@@ -24,7 +24,7 @@ export default async (req, res, next) => {
 
         await schema.validate(req.body, { abortEarly: false });
 
-        const enderecos = [...req.body.enderecos];
+        const enderecos = JSON.parse(req.body.enderecos);
 
         if (!req.body.enderecos || enderecos.length === 0) {
             err.inner = 'Informe pelo menos 1 endereço.';
@@ -32,10 +32,10 @@ export default async (req, res, next) => {
         }
 
         await EnderecoService.validarListaEndereco(enderecos)
-        .catch((error) => {
-            err.inner = error;
-            throw err;
-        });
+            .catch((error) => {
+                err.inner = error;
+                throw err;
+            });
 
         const { email, oldPassword } = req.body;
 

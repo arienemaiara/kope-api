@@ -73,7 +73,7 @@ class EstabelecimentoController {
     async store(req, res) {
         try {
 
-            const { originalname: avatar_nome, filename: avatar_path} = req.file; 
+            const { originalname: avatar_nome, filename: avatar_path } = req.file; 
 
             const estabelecimentoData = {
                 ...req.body,
@@ -97,11 +97,29 @@ class EstabelecimentoController {
     async update(req, res) {
         try {
             const estabelecimento_id = req.userId;
-            const { enderecos } = req.body;
+            const enderecos = JSON.parse(req.body.enderecos);
+
+            const estabelecimento = await Estabelecimento.findOne({
+                where: {
+                    id: estabelecimento_id
+                }
+            });
+
+            let avatar_nome = estabelecimento.avatar_nome;
+            let avatar_path = estabelecimento.avatar_path;
+
+            if (req.file && avatar_nome !== req.file?.filename) {
+                avatar_nome = req.file?.originalname;
+                avatar_path = req.file?.filename;
+            }
 
             await database.connection.transaction(async (t) => {
                 delete req.body.cpf_cnpj;
-                const estabelecimento = await Estabelecimento.update(req.body, {
+                await Estabelecimento.update({
+                    ...req.body,
+                    avatar_nome,
+                    avatar_path
+                }, {
                     where: {
                         id: estabelecimento_id
                     },

@@ -39,7 +39,7 @@ routes.put('/clientes', validatorClienteUpdate, ClienteController.update);
 
 routes.get('/estabelecimentos', EstabelecimentoController.index);
 routes.get('/estabelecimentos/detalhe', EstabelecimentoController.detail);
-routes.put('/estabelecimentos', validatorEstabelecimentoUpdate, EstabelecimentoController.update);
+routes.put('/estabelecimentos', upload.single('file'), validatorEstabelecimentoUpdate, EstabelecimentoController.update);
 
 routes.get('/recompensas', RecompensaController.index);
 routes.post('/recompensas', upload.single('file'), RecompensaController.store);

@@ -19,14 +19,14 @@ export default async (req, res, next) => {
 
         await schema.validate(req.body, { abortEarly: false });
 
-        const { enderecos } = req.body;
+        const enderecos = JSON.parse(req.body.enderecos);
 
         if (!req.body.enderecos || enderecos.length === 0) {
             err.inner = 'Informe pelo menos 1 endereço.';
             throw err;
         }
 
-        await EnderecoService.validarListaEndereco(JSON.parse(enderecos))
+        await EnderecoService.validarListaEndereco(enderecos)
         .catch((error) => {
             err.inner = error;
             throw err;
