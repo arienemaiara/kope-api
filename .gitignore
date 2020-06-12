@@ -3,5 +3,3 @@ node_modules
 __tests__/coverage
 __tests__/.DS_Store
 __tests__/database.sqlite
-
-uploads/*
