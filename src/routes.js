@@ -43,7 +43,7 @@ routes.put('/estabelecimentos', validatorEstabelecimentoUpdate, EstabelecimentoC
 
 routes.get('/recompensas', RecompensaController.index);
 routes.post('/recompensas', upload.single('file'), RecompensaController.store);
-routes.put('/recompensas/:id', RecompensaController.update);
+routes.put('/recompensas/:id', upload.single('file'), RecompensaController.update);
 routes.delete('/recompensas/:id', RecompensaController.delete);
 
 routes.get('/movimentacoes', MovimentacaoController.index);

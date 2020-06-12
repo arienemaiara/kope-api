@@ -27,7 +27,7 @@ class RecompensaController {
     async store(req, res) {
         try {
             const schema = Yup.object().shape({
-                descricao: Yup.string().required().min(6),
+                descricao: Yup.string().required(),
                 qtd_pontos: Yup.number().required().integer()
             });
 
@@ -37,7 +37,8 @@ class RecompensaController {
 
             const estabelecimento_id = req.userId;
 
-            const { originalname: imagem_nome, filename: imagem_path} = req.file; 
+            const imagem_nome = req.file?.originalname;
+            const imagem_path = req.file?.filename;
 
             const recompensa = await Recompensa.create({
                 descricao: req.body.descricao,
@@ -58,7 +59,7 @@ class RecompensaController {
     async update(req, res) {
         try {
             const schema = Yup.object().shape({
-                descricao: Yup.string().min(6),
+                descricao: Yup.string(),
                 qtd_pontos: Yup.number().integer()
             });
 
@@ -80,7 +81,19 @@ class RecompensaController {
                 return res.status(400).json({ error: 'Recompensa não encontrada.' });
             }
 
-            const { descricao, qtd_pontos } = await recompensa.update(req.body);
+            let imagem_nome = recompensa.imagem_nome;
+            let imagem_path = recompensa.imagem_path;
+
+            if (req.file && imagem_nome !== req.file?.filename) {
+                imagem_nome = req.file?.originalname;
+                imagem_path = req.file?.filename;
+            }
+        
+            const { descricao, qtd_pontos } = await recompensa.update({
+                ...req.body,
+                imagem_nome,
+                imagem_path
+            });
 
             return res.json({ descricao, qtd_pontos });
 
