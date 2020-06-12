@@ -1,4 +1,9 @@
 import { Router } from 'express';
+import multer from 'multer';
+
+import multerConfig from './config/multer';
+
+const upload = multer(multerConfig);
 
 //Controllers
 import ClienteController from './app/controllers/ClienteController';
@@ -37,7 +42,7 @@ routes.get('/estabelecimentos/detalhe', EstabelecimentoController.detail);
 routes.put('/estabelecimentos', validatorEstabelecimentoUpdate, EstabelecimentoController.update);
 
 routes.get('/recompensas', RecompensaController.index);
-routes.post('/recompensas', RecompensaController.store);
+routes.post('/recompensas', upload.single('file'), RecompensaController.store);
 routes.put('/recompensas/:id', RecompensaController.update);
 routes.delete('/recompensas/:id', RecompensaController.delete);
 

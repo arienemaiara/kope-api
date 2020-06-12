@@ -11,7 +11,7 @@ class RecompensaController {
                 where: {
                     estabelecimento_id
                 },
-                attributes: ['id', 'descricao', 'qtd_pontos', 'imagem_url'],
+                attributes: ['id', 'descricao', 'qtd_pontos', 'imagem_path', 'imagem_url'],
                 order: ['descricao'],
                 limit: 20,
                 offset: (page - 1) * 20,
@@ -37,9 +37,13 @@ class RecompensaController {
 
             const estabelecimento_id = req.userId;
 
+            const { originalname: imagem_nome, filename: imagem_path} = req.file; 
+
             const recompensa = await Recompensa.create({
                 descricao: req.body.descricao,
                 qtd_pontos: req.body.qtd_pontos,
+                imagem_nome,
+                imagem_path,
                 estabelecimento_id
             });
 
@@ -85,7 +89,6 @@ class RecompensaController {
             return res.status(500).json({ error });
         }
     }
-
 
     async delete(req, res) {
         try {

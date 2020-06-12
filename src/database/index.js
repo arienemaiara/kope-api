@@ -16,7 +16,6 @@ class Database {
     }
 
     init() {
-
         if (process.env.DATABASE_URL) {
             this.connection = new Sequelize(process.env.DATABASE_URL, {
                 logging:  true,
