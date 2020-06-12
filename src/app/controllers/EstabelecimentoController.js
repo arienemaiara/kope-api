@@ -117,6 +117,7 @@ class EstabelecimentoController {
 
                 return Promise.all(
                     enderecos.map(async (endereco) => {
+                        delete endereco.id;
                         return EstabelecimentoEndereco.create({
                             ...endereco,
                             estabelecimento_id
