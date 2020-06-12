@@ -26,7 +26,7 @@ export default async (req, res, next) => {
             throw err;
         }
 
-        await EnderecoService.validarListaEndereco(enderecos)
+        await EnderecoService.validarListaEndereco(JSON.parse(enderecos))
         .catch((error) => {
             err.inner = error;
             throw err;
@@ -64,7 +64,7 @@ export default async (req, res, next) => {
         return next();
 
     } catch (error) {
-        //console.log(error);
+        console.log(error);
         return res.status(400).json({ error: 'Erro na validação dos campos.', messages: error.inner });
     }
 }

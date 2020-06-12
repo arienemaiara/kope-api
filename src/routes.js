@@ -28,7 +28,7 @@ const routes = new Router();
 routes.post('/clientes', validatorClienteStore, ClienteController.store);
 routes.post('/clientes/login', ClienteSessionController.store);
 
-routes.post('/estabelecimentos', validatorEstabelecimentoStore, EstabelecimentoController.store);
+routes.post('/estabelecimentos', upload.single('file'), validatorEstabelecimentoStore, EstabelecimentoController.store);
 routes.post('/estabelecimentos/login', EstabelecimentoSessionController.store);
 
 routes.use(authMiddleware);
