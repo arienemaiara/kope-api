@@ -73,8 +73,12 @@ class EstabelecimentoController {
     async store(req, res) {
         try {
 
-            const { originalname: avatar_nome, filename: avatar_path } = req.file; 
-
+            let avatar_nome, avatar_path;
+            if (req.file) {
+                avatar_nome = req.file.originalname;
+                avatar_path = req.file.filename;
+            }
+           
             const estabelecimentoData = {
                 ...req.body,
                 enderecos: JSON.parse(req.body.enderecos),

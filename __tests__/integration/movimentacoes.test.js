@@ -3,22 +3,28 @@ import request from 'supertest';
 import factory from '../factories';
 import app from '../../src/app';
 
+let cliente, estabelecimento, token;
+
 describe('Movimentacoes', () => {
 
-    let cliente, estabelecimento, token;
-
     beforeAll(async () => {
-        console.log('before all')
+        
         cliente = await factory.attrs('Cliente');
         estabelecimento = await factory.attrs('Estabelecimento');
 
-        let response = await request(app)
+        await request(app)
             .post('/clientes')
             .send(cliente);
 
-        response = await request(app)
+        await request(app)
             .post('/estabelecimentos')
-            .send(estabelecimento);
+            .field('cpf_cnpj', estabelecimento.cpf_cnpj)
+            .field('nome', estabelecimento.nome)
+            .field('email', estabelecimento.email)
+            .field('telefone', estabelecimento.telefone)
+            .field('password', estabelecimento.password)
+            .field('enderecos', JSON.stringify(estabelecimento.enderecos))
+            .field('file', '')
 
         const responseLogin = await request(app)
             .post('/estabelecimentos/login')
@@ -27,12 +33,9 @@ describe('Movimentacoes', () => {
                 password: estabelecimento.password
             });
         token = responseLogin.body.token;
-
-        console.log('token', token)
     });
 
     it('Deverá acumular pontos', async () => {
-        console.log('token acumulo', token)
         const response = await request(app)
             .post('/movimentacoes')
             .set('Authorization', `Bearer ${token}`)
