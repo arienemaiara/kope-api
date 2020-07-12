@@ -106,26 +106,26 @@ describe('Estabelecimento', () => {
         expect(response.body.messages).toBe('Senha anterior inválida.');
     });
 
-    // // it('Deverá ser alterado com sucesso', async () => {
+    it('Deverá ser alterado com sucesso', async () => {
 
-    // //     const novoEstabelecimento = estabelecimento;
-    // //     novoEstabelecimento.nome = 'Novo Nome';
-    // //     delete novoEstabelecimento.password;
-    // //     delete novoEstabelecimento.oldPassword;
-    // //     delete novoEstabelecimento.confirmPassword;
+        const novoEstabelecimento = estabelecimento;
+        novoEstabelecimento.nome = 'Novo Nome';
+        delete novoEstabelecimento.password;
+        delete novoEstabelecimento.oldPassword;
+        delete novoEstabelecimento.confirmPassword;
 
-    // //     const estabelecimentoAlterado = await request(app)
-    // //         .put('/estabelecimentos')
-    // //         .set('Authorization', `Bearer ${token}`)
-    // //         .field('cpf_cnpj', novoEstabelecimento.cpf_cnpj)
-    // //         .field('nome', novoEstabelecimento.nome)
-    // //         .field('email', novoEstabelecimento.email)
-    // //         .field('telefone', novoEstabelecimento.telefone)
-    // //         .field('enderecos', JSON.stringify(novoEstabelecimento.enderecos))
-    // //         .field('file', '')
+        const estabelecimentoAlterado = await request(app)
+            .put('/estabelecimentos')
+            .set('Authorization', `Bearer ${token}`)
+            .field('cpf_cnpj', novoEstabelecimento.cpf_cnpj)
+            .field('nome', novoEstabelecimento.nome)
+            .field('email', novoEstabelecimento.email)
+            .field('telefone', novoEstabelecimento.telefone)
+            .field('enderecos', JSON.stringify(novoEstabelecimento.enderecos))
+            .field('file', '')
 
-    // //     expect(estabelecimentoAlterado.body).toBe(novoEstabelecimento.nome);
+        expect(estabelecimentoAlterado.body).toHaveProperty('message', 'OK');
 
-    // // }, 50000);
+    }, 50000);
 
 });

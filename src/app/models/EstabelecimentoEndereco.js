@@ -22,9 +22,10 @@ class EstabelecimentoEndereco extends Model {
         );
 
         this.addHook('beforeSave', async (endereco) => {
-            console.log('before save endereco');
-            const pointLocation = await GeocodeService.geocodificarEndereco(endereco);
-            endereco.coordenadas = pointLocation;
+            if (process.env.NODE_ENV !== 'test') {
+                const pointLocation = await GeocodeService.geocodificarEndereco(endereco);
+                endereco.coordenadas = pointLocation;
+            }
         });
 
         return this;

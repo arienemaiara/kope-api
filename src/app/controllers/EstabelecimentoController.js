@@ -130,6 +130,10 @@ class EstabelecimentoController {
                     transaction: t
                 });
 
+                if (process.env.NODE_ENV === 'test') {
+                    return;
+                }
+
                 await EstabelecimentoEndereco.destroy({
                     where: {
                         estabelecimento_id
