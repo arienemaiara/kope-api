@@ -12,6 +12,7 @@ import EstabelecimentoController from './app/controllers/EstabelecimentoControll
 import EstabelecimentoSessionController from './app/controllers/EstabelecimentoSessionController';
 import RecompensaController from './app/controllers/RecompensaController';
 import MovimentacaoController from './app/controllers/MovimentacaoController';
+import MovimentacaoEstabelecimentoController from './app/controllers/MovimentacaoEstabelecimentoController';
 
 //Validadores
 import validatorClienteStore from './app/validators/cliente/ClienteStore';
@@ -40,6 +41,7 @@ routes.put('/clientes', validatorClienteUpdate, ClienteController.update);
 routes.get('/estabelecimentos', EstabelecimentoController.index);
 routes.get('/estabelecimentos/detalhe', EstabelecimentoController.detail);
 routes.put('/estabelecimentos', upload.single('file'), validatorEstabelecimentoUpdate, EstabelecimentoController.update);
+routes.get('/estabelecimentos/movimentacao', MovimentacaoEstabelecimentoController.index);
 
 routes.get('/recompensas', RecompensaController.index);
 routes.post('/recompensas', upload.single('file'), RecompensaController.store);

@@ -1,5 +1,4 @@
 import sequelize from 'sequelize';
-import * as Yup from 'yup';
 
 import Movimentacao from '../models/Movimentacao';
 import Estabelecimento from '../models/Estabelecimento';

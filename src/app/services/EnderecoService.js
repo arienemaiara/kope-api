@@ -14,7 +14,7 @@ class EnderecoService {
 
         return new Promise(async (resolve, reject) => {
             const schema = Yup.object().shape({
-                endereco: Yup.string().required().min(10),
+                endereco: Yup.string().required(),
                 numero: Yup.string().required(),
                 cep: Yup.string().required(),
                 bairro: Yup.string().required(),
