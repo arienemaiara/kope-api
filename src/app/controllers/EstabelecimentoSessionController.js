@@ -19,13 +19,14 @@ class EstabelecimentoSessionController {
                 return res.status(401).json({ error: 'Senha inválida.' });
             }
 
-            const { id, cpf_cnpj, nome } = estabelecimento;
+            const { id, cpf_cnpj, nome, avatar_url } = estabelecimento;
 
             return res.json({
                 user: {
                     id,
                     cpf_cnpj,
                     nome,
+                    avatar_url
                 },
                 token: jwt.sign({ id, tipoUsuario: 'estabelecimento' }, authConfig.secret, {
                     expiresIn: authConfig.expiresIn,
