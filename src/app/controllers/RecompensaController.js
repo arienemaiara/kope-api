@@ -11,7 +11,7 @@ class RecompensaController {
                 where: {
                     estabelecimento_id
                 },
-                attributes: ['id', 'descricao', 'qtd_pontos', 'imagem_path', 'imagem_url'],
+                attributes: ['id', 'descricao', 'qtd_pontos', 'imagem_path'],
                 order: ['descricao'],
                 limit: 20,
                 offset: (page - 1) * 20,
