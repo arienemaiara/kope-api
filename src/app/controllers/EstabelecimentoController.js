@@ -73,7 +73,6 @@ class EstabelecimentoController {
     async store(req, res) {
         try {
 
-            let avatar_nome, avatar_path;
             const avatar_nome = req.file?.originalname;
             const avatar_path = req.file?.location || req.file?.filename;
            
