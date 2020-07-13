@@ -12,12 +12,12 @@ class Estabelecimento extends Model {
             telefone: Sequelize.STRING,
             avatar_nome: Sequelize.STRING,
             avatar_path: Sequelize.STRING,
-            avatar_url: {
-                type: Sequelize.VIRTUAL,
-                get() {
-                    return `${process.env.API_URL}/files/${this.avatar_path}`;
-                },
-            },
+            // avatar_url: {
+            //     type: Sequelize.VIRTUAL,
+            //     get() {
+            //         return `${process.env.API_URL}/files/${this.avatar_path}`;
+            //     },
+            // },
         }, {
             sequelize
         });
@@ -25,6 +25,10 @@ class Estabelecimento extends Model {
         this.addHook('beforeSave', async (estabelecimento) => {
             if (estabelecimento.password) {
                 estabelecimento.password_hash = await bcrypt.hash(estabelecimento.password, 8);
+            }
+
+            if (process.env.NODE_ENV !== 'production' && estabelecimento.avatar_path) {
+                estabelecimento.avatar_path = `${process.env.API_URL}/files/${estabelecimento.avatar_path}`;
             }
         });
 

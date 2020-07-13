@@ -74,10 +74,8 @@ class EstabelecimentoController {
         try {
 
             let avatar_nome, avatar_path;
-            if (req.file) {
-                avatar_nome = req.file.originalname;
-                avatar_path = req.file.filename;
-            }
+            const avatar_nome = req.file?.originalname;
+            const avatar_path = req.file?.location || req.file?.filename;
            
             const estabelecimentoData = {
                 ...req.body,
@@ -114,7 +112,7 @@ class EstabelecimentoController {
 
             if (req.file && avatar_nome !== req.file?.filename) {
                 avatar_nome = req.file?.originalname;
-                avatar_path = req.file?.filename;
+                avatar_path = req.file?.location || req.file?.filename;
             }
 
             await database.connection.transaction(async (t) => {
