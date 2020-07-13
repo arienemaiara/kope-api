@@ -37,7 +37,7 @@ class RecompensaController {
 
             const estabelecimento_id = req.userId;
 
-            const imagem_nome = req.file?.originalname;
+            const imagem_nome = req.file?.key || req.file?.filename;
             const imagem_path = req.file?.location || req.file?.filename;
 
             const recompensa = await Recompensa.create({
@@ -85,7 +85,7 @@ class RecompensaController {
             let imagem_path = recompensa.imagem_path;
 
             if (req.file && imagem_nome !== req.file?.filename) {
-                imagem_nome = req.file?.originalname;
+                imagem_nome = req.file?.key || req.file?.filename;
                 imagem_path = req.file?.location || req.file?.filename;;
             }
         

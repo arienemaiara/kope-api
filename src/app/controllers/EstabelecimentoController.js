@@ -73,7 +73,7 @@ class EstabelecimentoController {
     async store(req, res) {
         try {
 
-            const avatar_nome = req.file?.originalname;
+            const avatar_nome = req.file?.key || req.file?.filename;
             const avatar_path = req.file?.location || req.file?.filename;
            
             const estabelecimentoData = {
@@ -110,7 +110,7 @@ class EstabelecimentoController {
             let avatar_path = estabelecimento.avatar_path;
 
             if (req.file && avatar_nome !== req.file?.filename) {
-                avatar_nome = req.file?.originalname;
+                avatar_nome = req.file?.key || req.file?.filename;
                 avatar_path = req.file?.location || req.file?.filename;
             }
 
