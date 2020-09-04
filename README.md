@@ -1,11 +1,12 @@
-## API - KOPE - Cartão fidelidade digital
+## API - KOPE - Digital Loyalty Card
 
-### Trabalho de Graduação desenvolvido para o curso de Banco de Dados da FATEC São José dos Campos
+### Graduation project developed for Database degree at FATEC
 
-O projeto tem como objetivo digitalizar os cartões fidelidade utilizado em estabelecimentos como restaurantes, bares, etc.
+The project aims to digitize loyalty cards used in commercial establishments such as restaurants, bars, etc.
 
-#### Tecnologias utilizadas:
+#### Technologies:
 
  1. NodeJS
  2. Postgres
  3. Docker
+ 4. AWS S3
